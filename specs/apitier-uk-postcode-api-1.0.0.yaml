@@ -1,0 +1,793 @@
+openapi: 3.0.1
+info:
+  title: UK PostCode API
+  description: These are API Tier API's to expedite your development, enrich the
+    user experience.
+  contact:
+    email: hello@apitier.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://postcode.apitier.com/v1
+tags:
+- name: UK PostCode API
+  description: Set of APIs to help you build day-to-day address validation, address
+    lookup, postcode lookup.
+paths:
+  /postcodes/{postcode}:
+    get:
+      tags:
+      - UK PostCode API
+      summary: PostCode Lookup
+      description: |
+        Gets addresses for the given UK PostCode
+      parameters:
+      - name: postcode
+        in: path
+        description: Pass a PostCode value for looking up addresses
+        required: true
+        schema:
+          type: string
+        examples:
+          single:         
+            value: SW1A 0AA    
+            summary: PostCode
+      - name: x-api-key
+        in: query
+        description: Unique API key generated to access API.
+        required: true
+        schema:
+          type: string
+        examples:       
+          single:         
+            value: NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf   
+            summary: API Key
+      responses:
+        200:
+          description: addresses results for given postcode
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostCodeItem'
+              examples:   
+                      Response:   # Example 1
+                        value:
+                          status: 200
+                          message: Success
+                          noOfItems: 1
+                          result:
+                            postcode: SW1A 0AA
+                            district: Westminster
+                            ward: St James's
+                            county: Inner London
+                            country: England
+                            geocode:
+                              eastings: '530268'
+                              northings: '0179545'
+                              lattitude: '51.499840'
+                              longitude: "-0.124663"
+                            addresses:
+                            - po_box: ''
+                              line_2: Houses Of Parliament
+                              postcode_type: L
+                              line_3: ''
+                              su_organisation_indicator: " "
+                              building_number: " "
+                              udprn: '23747208'
+                              thoroughfare: ''
+                              line_1: House Of Commons
+                              postcode_outcode: SW1A
+                              postcode_compact: SW1A0AA
+                              dependant_thoroughfare: ''
+                              premise: Houses Of Parliament
+                              post_town: LONDON
+                              building_name: Houses Of Parliament
+                              organisation_name: House Of Commons
+                              postcode: SW1A 0AA
+                              department_name: ''
+                              postcode_incode: 0AA
+                              address: House Of Commons, Houses Of Parliament, LONDON, SW1A 0AA
+                              double_dependant_locality: ''
+                              sub_building_name: ''
+                              dependant_locality: ''
+                              delivery_point_suffix: 1A
+
+        400:
+          description: Bad Request - Request failed due to invalid syntax
+          content: {}
+        401:
+          description: Unauthorized - Client must authenticate itself to get the requested
+            response
+          content: {}
+        402:
+          description: Payment Required - Request Failed as request credit not avaialble.
+          content: {}
+        403:
+          description: Forbidden - Provided API key is not known to the server.
+          content: {}
+        404:
+          description: Resource Not Found - The server can not find the requested
+            resource.
+          content: {}
+        429:
+          description: Too Many Requests - The user has sent too many requests in
+            a given amount of time ("rate limiting").
+          content: {}
+        500:
+          description: Internal Server Error - The server has error to handle request.
+          content: {}
+  /addresses:
+    get:
+      tags:
+      - UK PostCode API
+      summary: Address Lookup
+      description: |
+        Gets addresses for given search term.
+      parameters:
+      - name: query
+        in: query
+        description: Pass a search term to get addresses matching search query
+        required: true
+        schema:
+          type: string
+        examples:
+          single:         
+            value: 165 Queen's Gate    
+            summary: Address          
+      - name: x-api-key
+        in: query
+        description: Unique API key generated to access API.
+        required: true
+        schema:
+          type: string
+        examples:       
+          single:         
+            value: NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf   
+            summary: API Key          
+      - name: limit
+        in: query
+        description: Maximum number of records to return
+        schema:
+          type: integer
+          format: int32
+        examples:       
+          single:      
+            value: 20   
+            summary: page size 
+      - name: page
+        in: query
+        description: Starting index for the record
+        schema:
+          type: integer
+          format: int32
+        examples:       
+          single:      
+            value: 1   
+            summary: page index           
+      responses:
+        200:
+          description: Return a list of matching address for a search term
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressItem'
+              examples:   
+                      Response:   # Example 1
+                        value:
+                          status: 200
+                          message: Success
+                          result:
+                            total: 3
+                            hits:
+                            - address: Dana Centre, Wellcome Wolfson Building, 165 Queen's Gate, LONDON, SW7
+                                5HD
+                              building_name: Wellcome Wolfson Building
+                              building_number: '165'
+                              line_1: Dana Centre
+                              line_2: Wellcome Wolfson Building
+                              line_3: 165 Queen's Gate
+                              organisation_name: Dana Centre
+                              po_box: ''
+                              post_town: LONDON
+                              postcode: SW7 5HD
+                              premise: Wellcome Wolfson Building, 165
+                              sub_building_name: ''
+                              thoroughfare: Queen's Gate
+                              udprn: '28338839'
+                            - address: British Science Association, Wellcome Wolfson Building, 165 Queen's Gate,
+                                LONDON, SW7 5HD
+                              building_name: Wellcome Wolfson Building
+                              building_number: '165'
+                              line_1: British Science Association
+                              line_2: Wellcome Wolfson Building
+                              line_3: 165 Queen's Gate
+                              organisation_name: British Science Association
+                              po_box: ''
+                              post_town: LONDON
+                              postcode: SW7 5HD
+                              premise: Wellcome Wolfson Building, 165
+                              sub_building_name: ''
+                              thoroughfare: Queen's Gate
+                              udprn: '23870517'
+                            - address: Institute For Research In Schools, Wellcome Wolfson Building, 165 Queen's
+                                Gate, LONDON, SW7 5HD
+                              building_name: Wellcome Wolfson Building
+                              building_number: '165'
+                              line_1: Institute For Research In Schools
+                              line_2: Wellcome Wolfson Building
+                              line_3: 165 Queen's Gate
+                              organisation_name: Institute For Research In Schools
+                              po_box: ''
+                              post_town: LONDON
+                              postcode: SW7 5HD
+                              premise: Wellcome Wolfson Building, 165
+                              sub_building_name: ''
+                              thoroughfare: Queen's Gate
+                              udprn: '51185295'
+                        
+        400:
+          description: Bad Request - Request failed due to invalid syntax
+          content: {}
+        401:
+          description: Unauthorized - Client must authenticate itself to get the requested
+            response
+          content: {}
+        402:
+          description: Payment Required - Request Failed as request credit not avaialble.
+          content: {}
+        403:
+          description: Forbidden - Provided API key is not known to the server.
+          content: {}
+        404:
+          description: Resource Not Found - The server can not find the requested
+            resource.
+          content: {}
+        429:
+          description: Too Many Requests - The user has sent too many requests in
+            a given amount of time ("rate limiting").
+          content: {}
+        500:
+          description: Internal Server Error - The server has error to handle request.
+          content: {}
+  /udprn/{udprn}:
+    get:
+      tags:
+      - UK PostCode API
+      summary: UDPRN Lookup
+      description: |
+        Gets addresses for given search term.
+      parameters:
+      - name: udprn
+        in: path
+        description: Pass a search term to get addresses matching search query
+        required: true
+        schema:
+          type: string
+        examples:       
+          single:         
+            value: 23747208   
+            summary: UDPRN   
+      - name: x-api-key
+        in: query
+        description: Unique API key generated to access API.
+        required: true
+        schema:
+          type: string
+        examples:       
+          single:         
+            value: NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf   
+            summary: API Key          
+      responses:
+        200:
+          description: Return a address for the UDPRN
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UDPRNItem'
+              examples:   
+                      Response:   # Example 1
+                        value:
+                          status: 200
+                          message: Success
+                          result:
+                            building_number: " "
+                            premise: Houses Of Parliament
+                            building_name: Houses Of Parliament
+                            sub_building_name: ''
+                            organisation_name: House Of Commons
+                            line_1: House Of Commons
+                            line_2: Houses Of Parliament
+                            line_3: ''
+                            postcode: SW1A 0AA
+                            thoroughfare: ''
+                            post_town: LONDON
+                            po_box: ''
+                            ward: St James's
+                            district: Westminster
+                            county: Inner London
+                            country: England
+                            udprn: '23747208'
+                            address: House Of Commons, Houses Of Parliament, LONDON, SW1A 0AA
+                            postcode_incode: 0AA
+                            postcode_outcode: SW1A
+                            postcode_compact: SW1A0AA
+                            postcode_type: L
+                            department_name: ''
+                            su_organisation_indicator: " "
+                            double_dependant_locality: ''
+                            dependant_thoroughfare: ''
+                            dependant_locality: ''
+                            delivery_point_suffix: 1A
+                            geocode:
+                              eastings: '530268'
+                              northings: '0179545'
+                              lattitude: '51.499840'
+                              longitude: "-0.124663"
+
+        400:
+          description: Bad Request - Request failed due to invalid syntax
+          content: {}
+        401:
+          description: Unauthorized - Client must authenticate itself to get the requested
+            response
+          content: {}
+        402:
+          description: Payment Required - Request Failed as request credit not avaialble.
+          content: {}
+        403:
+          description: Forbidden - Provided API key is not known to the server.
+          content: {}
+        404:
+          description: Resource Not Found - The server can not find the requested
+            resource.
+          content: {}
+        429:
+          description: Too Many Requests - The user has sent too many requests in
+            a given amount of time ("rate limiting").
+          content: {}
+        500:
+          description: Internal Server Error - The server has error to handle request.
+          content: {}
+  /addresses/autocomplete:
+    get:
+      tags:
+      - UK PostCode API
+      summary: Address AutoSuggest
+      description: |
+        Suggests address results for a given search term.
+      parameters:
+      - name: query
+        in: query
+        description: pass a search term for address suggestions for a complete or
+          partial address query
+        required: true
+        schema:
+          type: string
+        examples:       
+          single:         
+            value: Queen's Gate   
+            summary: address search term 
+      - name: x-api-key
+        in: query
+        description: Unique API key generated to access API.
+        required: true
+        schema:
+          type: string
+        examples:       
+          single:         
+            value: NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf   
+            summary: API Key          
+      responses:
+        200:
+          description: Return a list of address suggestions for a search term
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressSuggestItem'
+              examples:   
+                      Response:   # Example 1
+                        value:
+                          status: 200
+                          message: Success
+                          result:
+                            total: 9
+                            hits:
+                            - address: 115 Queen's Gate, LONDON, SW7 5LP
+                              udprn: '23870881'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870881?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                            - address: 15 Queen's Gate Place, LONDON, SW7 5NX
+                              udprn: '23871219'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871219?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                            - address: 15 Queen's Gate Terrace, LONDON, SW7 5PR
+                              udprn: '23871350'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871350?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                            - address: 16 Queen's Gate Place, LONDON, SW7 5NY
+                              udprn: '23871246'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871246?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                            - address: 16 Queen's Gate Place Mews, LONDON, SW7 5BQ
+                              udprn: '23870196'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870196?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                            - address: 16 Queen's Gate Terrace, LONDON, SW7 5PF
+                              udprn: '23871261'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871261?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                            - address: 169 Queen's Gate, LONDON, SW7 5HE
+                              udprn: '23870519'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870519?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                            - address: 16a Queen's Gate Terrace, LONDON, SW7 5PF
+                              udprn: '23871262'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871262?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                            - address: 195 Queen's Gate, LONDON, SW7 5EU
+                              udprn: '23870486'
+                              urls:
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870486?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                        
+        400:
+          description: Bad Request - Request failed due to invalid syntax
+          content: {}
+        401:
+          description: Unauthorized - Client must authenticate itself to get the requested
+            response
+          content: {}
+        402:
+          description: Payment Required - Request Failed as request credit not avaialble.
+          content: {}
+        403:
+          description: Forbidden - Provided API key is not known to the server.
+          content: {}
+        404:
+          description: Resource Not Found - The server can not find the requested
+            resource.
+          content: {}
+        429:
+          description: Too Many Requests - The user has sent too many requests in
+            a given amount of time ("rate limiting").
+          content: {}
+        500:
+          description: Internal Server Error - The server has error to handle request.
+          content: {}
+components:
+  schemas:
+    PostCodeItem:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 200
+        message:
+          type: string
+          example: Success
+        noOfItems:
+          type: integer
+          format: int32
+          example: 1
+        result:
+          type: object
+          properties:
+            postcode:
+              type: string
+              example: SW1A 2AA
+            district:
+              type: string
+              example: LONDON
+            ward:
+              type: string
+              example: Westminster
+            county:
+              type: string
+              example: Westminster
+            country:
+              type: string
+              example: England
+            geocode:
+              $ref: '#/components/schemas/geocode'
+            addresses:
+              $ref: '#/components/schemas/addresses'
+    geocode:
+      type: object
+      properties:
+        eastings:
+          type: string
+          example: "461566"
+        northings:
+          type: string
+          example: "455179.0"
+        lattitude:
+          type: string
+          example: "53.989016"
+        longitude:
+          type: string
+          example: -1.062532
+    addresses:
+      type: array
+      items:
+        $ref: '#/components/schemas/address'
+    address:
+      type: object
+      properties:
+        po_box:
+          type: string
+          example: ""
+        line_2:
+          type: string
+          example: 10 Downing Street
+        postcode_type:
+          type: string
+          example: L
+        line_3:
+          type: string
+          example: ""
+        su_organisation_indicator:
+          type: string
+          example: ""
+        building_number:
+          type: string
+          example: "10"
+        udprn:
+          type: string
+          example: "23747771"
+        thoroughfare:
+          type: string
+          example: Downing Street
+        line_1:
+          type: string
+          example: Prime Minister & First Lord Of The Treasury
+        postcode_outcode:
+          type: string
+          example: SW1A
+        postcode_compact:
+          type: string
+          example: SW1A2AA
+        dependant_thoroughfare:
+          type: string
+          example: ""
+        premise:
+          type: string
+          example: "10"
+        post_town:
+          type: string
+          example: LONDON
+        building_name:
+          type: string
+          example: ""
+        organisation_name:
+          type: string
+          example: Prime Minister & First Lord Of The Treasury
+        postcode:
+          type: string
+          example: SW1A 2AA
+        department_name:
+          type: string
+          example: ""
+        postcode_incode:
+          type: string
+          example: 2AA
+        address:
+          type: string
+          example: Prime Minister & First Lord Of The Treasury, 10 Downing Street,
+            LONDON, SW1A 2AA
+        double_dependant_locality:
+          type: string
+          example: ""
+        sub_building_name:
+          type: string
+          example: ""
+        dependant_locality:
+          type: string
+          example: ""
+        delivery_point_suffix:
+          type: string
+          example: 1A
+    UDPRNItem:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 200
+        message:
+          type: string
+          example: Success
+        result:
+          $ref: '#/components/schemas/udprnaddress'
+    udprnaddress:
+      type: object
+      properties:
+        po_box:
+          type: string
+          example: ""
+        line_2:
+          type: string
+          example: 10 Downing Street
+        postcode_type:
+          type: string
+          example: L
+        line_3:
+          type: string
+          example: ""
+        su_organisation_indicator:
+          type: string
+          example: ""
+        building_number:
+          type: string
+          example: "10"
+        udprn:
+          type: string
+          example: "23747771"
+        thoroughfare:
+          type: string
+          example: Downing Street
+        line_1:
+          type: string
+          example: Prime Minister & First Lord Of The Treasury
+        postcode_outcode:
+          type: string
+          example: SW1A
+        postcode_compact:
+          type: string
+          example: SW1A2AA
+        dependant_thoroughfare:
+          type: string
+          example: ""
+        premise:
+          type: string
+          example: "10"
+        post_town:
+          type: string
+          example: LONDON
+        building_name:
+          type: string
+          example: ""
+        organisation_name:
+          type: string
+          example: Prime Minister & First Lord Of The Treasury
+        postcode:
+          type: string
+          example: SW1A 2AA
+        department_name:
+          type: string
+          example: ""
+        postcode_incode:
+          type: string
+          example: 2AA
+        address:
+          type: string
+          example: Prime Minister & First Lord Of The Treasury, 10 Downing Street,
+            LONDON, SW1A 2AA
+        double_dependant_locality:
+          type: string
+          example: ""
+        sub_building_name:
+          type: string
+          example: ""
+        dependant_locality:
+          type: string
+          example: ""
+        delivery_point_suffix:
+          type: string
+          example: 1A
+        geocode:
+          $ref: '#/components/schemas/geocode'
+    AddressItem:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 200
+        message:
+          type: string
+          example: Success
+        result:
+          type: object
+          properties:
+            total:
+              type: object
+              format: int32
+              example: "20"
+            hits:
+              type: array
+              items:
+                $ref: '#/components/schemas/FindAddress'
+    FindAddress:
+      type: object
+      properties:
+        address:
+          type: string
+          example: Farringdon Place, Church Road, Upper Farringdon, ALTON, GU34 3EH
+        building_name:
+          type: string
+          example: Farringdon Place
+        building_number:
+          type: string
+          example: ""
+        line_1:
+          type: string
+          example: Farringdon Place
+        line_2:
+          type: string
+          example: Church Road
+        line_3:
+          type: string
+          example: Upper Farringdon
+        organisation_name:
+          type: string
+          example: ""
+        po_box:
+          type: string
+          example: ""
+        post_town:
+          type: string
+          example: ALTON
+        postcode:
+          type: string
+          example: GU34 3EH
+        premise:
+          type: string
+          example: Farringdon Place
+        sub_building_name:
+          type: string
+          example: ""
+        thoroughfare:
+          type: string
+          example: Church Road
+        udprn:
+          type: string
+          example: "10336131"
+    AddressSuggestItem:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 200
+        message:
+          type: string
+          example: Success
+        result:
+          type: object
+          properties:
+            total:
+              type: object
+              format: int32
+              example: "20"
+            hits:
+              type: array
+              items:
+                $ref: '#/components/schemas/AddressSuggest'
+    AddressSuggest:
+      type: object
+      properties:
+        address:
+          type: string
+          example: Bridge Automotive Academy Ltd, Bridge Street, WEDNESBURY, WS10
+            0AW
+        udprn:
+          type: string
+          example: "52772425"
+        urls:
+          type: object
+          properties:
+            findByUDPRN:
+              type: string
+              example: https://postcode.apitier.com/v1/udprn/52772425?x-api-key=NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 400
+        message:
+          type: string
+          example: Error Message
