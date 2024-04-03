@@ -42,7 +42,7 @@ paths:
           type: string
         examples:       
           single:         
-            value: NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf   
+            value: api_key   
             summary: API Key
       responses:
         200:
@@ -144,7 +144,7 @@ paths:
           type: string
         examples:       
           single:         
-            value: NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf   
+            value: api_key   
             summary: API Key          
       - name: limit
         in: query
@@ -277,7 +277,7 @@ paths:
           type: string
         examples:       
           single:         
-            value: NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf   
+            value: api_key   
             summary: API Key          
       responses:
         200:
@@ -377,7 +377,7 @@ paths:
           type: string
         examples:       
           single:         
-            value: NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf   
+            value: api_key   
             summary: API Key          
       responses:
         200:
@@ -397,39 +397,39 @@ paths:
                             - address: 115 Queen's Gate, LONDON, SW7 5LP
                               udprn: '23870881'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870881?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870881?x-api-key=api_key
                             - address: 15 Queen's Gate Place, LONDON, SW7 5NX
                               udprn: '23871219'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871219?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871219?x-api-key=api_key
                             - address: 15 Queen's Gate Terrace, LONDON, SW7 5PR
                               udprn: '23871350'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871350?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871350?x-api-key=api_key
                             - address: 16 Queen's Gate Place, LONDON, SW7 5NY
                               udprn: '23871246'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871246?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871246?x-api-key=api_key
                             - address: 16 Queen's Gate Place Mews, LONDON, SW7 5BQ
                               udprn: '23870196'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870196?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870196?x-api-key=api_key
                             - address: 16 Queen's Gate Terrace, LONDON, SW7 5PF
                               udprn: '23871261'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871261?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871261?x-api-key=api_key
                             - address: 169 Queen's Gate, LONDON, SW7 5HE
                               udprn: '23870519'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870519?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870519?x-api-key=api_key
                             - address: 16a Queen's Gate Terrace, LONDON, SW7 5PF
                               udprn: '23871262'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871262?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23871262?x-api-key=api_key
                             - address: 195 Queen's Gate, LONDON, SW7 5EU
                               udprn: '23870486'
                               urls:
-                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870486?x-api-key=Vi4JOGZXEG7eglBeuyr2f8uMY8d6RrrG6TIYsnHP
+                                findByUDPRN: https://postcode.apitier.com/v1/udprn/23870486?x-api-key=api_key
                         
         400:
           description: Bad Request - Request failed due to invalid syntax
@@ -780,7 +780,7 @@ components:
           properties:
             findByUDPRN:
               type: string
-              example: https://postcode.apitier.com/v1/udprn/52772425?x-api-key=NQyF1LsrQJ8mFW1nDCspwaMH1DzFrbXC4TpRcwdf
+              example: https://postcode.apitier.com/v1/udprn/52772425?x-api-key=api_key
     ErrorResponse:
       type: object
       properties:
